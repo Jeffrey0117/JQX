@@ -29,8 +29,9 @@ jobs:
         with:
           version: 8
 
-      - name: Add pnpm to PATH (Optional)
-        run: echo "$HOME/.pnpm-store/bin" >> $GITHUB_PATH
+
+- name: Add pnpm to PATH (Optional)
+  run: echo "$HOME/.pnpm-store/bin" >> $GITHUB_PATH
 
       - name: Install dependencies
         run: pnpm install
