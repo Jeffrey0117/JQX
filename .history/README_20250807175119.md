@@ -1,0 +1,298 @@
+<p align="center">
+<img src="https://raw.githubusercontent.com/unocss/unocss/main/playground/public/icon-gray.svg" style="width:100px;" />
+</p>
+
+<h1 align="center">JQX</h1>
+
+<p align="center">
+The instant JSX-to-jQuery transformation engine.
+</p>
+
+<p align="center">
+<a href="https://npmjs.com/package/jqx"><img src="https://img.shields.io/npm/v/jqx.svg" alt="npm package"></a>
+<a href="https://github.com/your-username/jqx/actions/workflows/ci.yml"><img src="https://github.com/your-username/jqx/actions/workflows/ci.yml/badge.svg" alt="CI"></a>
+<a href="https://codecov.io/gh/your-username/jqx"><img src="https://codecov.io/gh/your-username/jqx/branch/main/graph/badge.svg" alt="Codecov"></a>
+</p>
+
+<br>
+
+## Features
+
+- 🚀 **Instant** - Zero configuration, works out of the box
+- ⚡ **Fast** - Leverages Vite's lightning-fast HMR
+- 🔧 **jQuery Compatible** - Full compatibility with jQuery ecosystem
+- 📦 **Modular** - Component-based architecture with ES6 modules
+- 💡 **Intuitive** - Familiar JSX syntax for jQuery DOM manipulation
+- 🎨 **Flexible** - Easy to extend and customize
+- 📱 **Responsive** - Built-in responsive design support
+
+## Installation
+
+```bash
+npm install jqx
+```
+
+## Quick Start
+
+```jsx
+/** @jsx jCreateElement */
+import $ from 'jquery';
+import { jCreateElement } from './createElement.js';
+
+const App = () => (
+  <div className="container">
+    <h1>Hello JQX!</h1>
+    <button onClick={() => alert('It works!')}>
+      Click me
+    </button>
+  </div>
+);
+
+$('#root').append(<App />);
+```
+
+## Why JQX?
+
+<table>
+<thead>
+<tr>
+<th></th>
+<th>JQX</th>
+<th>React</th>
+<th>Vue</th>
+<th>Vanilla JS</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Bundle Size</strong></td>
+<td><code>~5kb</code></td>
+<td><code>~40kb</code></td>
+<td><code>~35kb</code></td>
+<td><code>0kb</code></td>
+</tr>
+<tr>
+<td><strong>Learning Curve</strong></td>
+<td>📗 Easy</td>
+<td>📙 Medium</td>
+<td>📙 Medium</td>
+<td>📕 Hard</td>
+</tr>
+<tr>
+<td><strong>jQuery Compatible</strong></td>
+<td>✅</td>
+<td>❌</td>
+<td>❌</td>
+<td>✅</td>
+</tr>
+<tr>
+<td><strong>Component Based</strong></td>
+<td>✅</td>
+<td>✅</td>
+<td>✅</td>
+<td>❌</td>
+</tr>
+</tbody>
+</table>
+
+## Examples
+
+### Basic Component
+
+```jsx
+/** @jsx jCreateElement */
+import { jCreateElement } from './createElement.js';
+
+const Button = ({ text, onClick }) => (
+  <button className="btn btn-primary" onClick={onClick}>
+    {text}
+  </button>
+);
+
+export default Button;
+```
+
+### Interactive Component with State
+
+```jsx
+/** @jsx jCreateElement */
+import $ from 'jquery';
+import { jCreateElement } from './createElement.js';
+
+let count = 0;
+
+const Counter = () => (
+  <div className="counter">
+    <p>Count: <span id="count">{count}</span></p>
+    <button onClick={() => {
+      count++;
+      $('#count').text(count);
+    }}>
+      Increment
+    </button>
+  </div>
+);
+
+export default Counter;
+```
+
+### Using jQuery Plugins
+
+```jsx
+/** @jsx jCreateElement */
+import $ from 'jquery';
+import 'jquery-ui/ui/widgets/draggable';
+import { jCreateElement } from './createElement.js';
+
+const DraggableBox = () => {
+  const handleMount = (element) => {
+    $(element).draggable();
+  };
+
+  return (
+    <div 
+      className="draggable-box"
+      ref={handleMount}
+    >
+      Drag me around!
+    </div>
+  );
+};
+
+export default DraggableBox;
+```
+
+## Project Structure
+
+```
+jqx/
+├── src/
+│   ├── components/           # Component files
+│   │   ├── App.jsx          # Main application
+│   │   ├── Header.jsx       # Navigation header
+│   │   ├── Hero.jsx         # Hero section
+│   │   ├── Features.jsx     # Features showcase
+│   │   ├── Demo.jsx         # Interactive demo
+│   │   └── Footer.jsx       # Page footer
+│   ├── utils/               # Utility functions
+│   │   └── appUtils.js      # App utilities
+│   ├── createElement.js     # JSX transformation core
+│   ├── main.jsx            # Application entry point
+│   └── styles.css          # Global styles
+├── index.html              # HTML entry
+├── vite.config.js         # Vite configuration
+└── package.json           # Project configuration
+```
+
+## CLI Commands
+
+```bash
+# Install dependencies
+npm install
+
+# Start development server
+npm run dev
+
+# Build for production
+npm run build
+
+# Preview production build
+npm run preview
+
+# Run tests
+npm test
+```
+
+## Configuration
+
+### Vite Configuration
+
+```js
+import { defineConfig } from 'vite';
+import react from '@vitejs/plugin-react';
+
+export default defineConfig({
+  plugins: [
+    react({
+      jsxRuntime: 'classic',
+      babel: {
+        presets: [['@babel/preset-react', { pragma: 'jCreateElement' }]],
+      },
+    }),
+  ],
+});
+```
+
+### JSX Pragma
+
+Make sure to include the JSX pragma at the top of your components:
+
+```jsx
+/** @jsx jCreateElement */
+```
+
+## API Reference
+
+### `jCreateElement(tag, props, ...children)`
+
+The core function that transforms JSX into jQuery elements.
+
+**Parameters:**
+- `tag` - HTML tag name or component function
+- `props` - Element properties and attributes
+- `children` - Child elements
+
+**Returns:** jQuery object
+
+### Component Props
+
+| Prop | Type | Description |
+|------|------|-------------|
+| `className` | string | CSS class names |
+| `id` | string | Element ID |
+| `style` | object | Inline styles |
+| `onClick` | function | Click event handler |
+| `onMouseOver` | function | Mouse over event handler |
+| `ref` | function | Element reference callback |
+
+## Ecosystem
+
+### Official Plugins
+
+- [`@jqx/router`](#) - Client-side routing
+- [`@jqx/state`](#) - State management
+- [`@jqx/forms`](#) - Form handling utilities
+
+### Community
+
+- [Discord](https://discord.gg/jqx)
+- [GitHub Discussions](https://github.com/your-username/jqx/discussions)
+- [Stack Overflow](https://stackoverflow.com/questions/tagged/jqx)
+
+## Contributing
+
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
+
+### Development Setup
+
+```bash
+# Clone the repository
+git clone https://github.com/your-username/jqx.git
+
+# Install dependencies
+cd jqx
+npm install
+
+# Start development
+npm run dev
+```
+
+## License
+
+[MIT](LICENSE) License © 2024-PRESENT [Your Name](https://github.com/your-username)
+
+---
+
+<p align="center">
+Made with ❤️ by the JQX team
+</p>
