@@ -56,10 +56,8 @@ export function jCreateElement(tag, props = {}, ...children) {
     }
   }
 
-  // 處理子元素 - 確保 props 不為 null
-  const safePropsForChildren = props || {};
-  const propsChildren = safePropsForChildren.children ? [].concat(safePropsForChildren.children) : [];
-  const allChildren = [...children, ...propsChildren];
+  // 處理子元素
+  const allChildren = [...children, ...(props.children ? [].concat(props.children) : [])];
   
   allChildren.flat().forEach((child) => {
     if (child == null || child === false) {

@@ -1,23 +1,20 @@
 import $ from 'jquery';
 
 export function jCreateElement(tag, props = {}, ...children) {
-  console.log('JQX createElement v1.2 - Updated!', { tag: typeof tag === 'function' ? tag.name : tag, props, children });
+  console.log('JQX createElement v1.1 - Updated!', { tag: typeof tag === 'function' ? tag.name : tag, props, children });
   
   // 處理函數組件
   if (typeof tag === 'function') {
     try {
-      // 完全確保 props 不會是 null，即使在函數參數中也是如此
-      const safeProps = props === null || props === undefined ? {} : { ...props };
-      const safeChildren = children && children.length > 0 ? children : [];
+      // 確保 props 不是 null 或 undefined
+      const safeProps = props || {};
+      const safeChildren = children && children.length ? children : undefined;
       
-      console.log('Calling component:', tag.name, 'with props:', safeProps, 'children:', safeChildren);
-      
-      // 重新調用函數，確保不傳遞任何 null 值
-      const result = tag.call(null, { ...safeProps, children: safeChildren.length > 0 ? safeChildren : undefined });
-      return result;
+      console.log('Calling component:', tag.name, 'with props:', safeProps);
+      return tag({ ...safeProps, children: safeChildren });
     } catch (error) {
       console.error('Error rendering component:', tag.name, error);
-      return $('<div>').text('Component Error: ' + error.message);
+      return $('<div>').text('Component Error');
     }
   }
 
@@ -56,10 +53,8 @@ export function jCreateElement(tag, props = {}, ...children) {
     }
   }
 
-  // 處理子元素 - 確保 props 不為 null
-  const safePropsForChildren = props || {};
-  const propsChildren = safePropsForChildren.children ? [].concat(safePropsForChildren.children) : [];
-  const allChildren = [...children, ...propsChildren];
+  // 處理子元素
+  const allChildren = [...children, ...(props.children ? [].concat(props.children) : [])];
   
   allChildren.flat().forEach((child) => {
     if (child == null || child === false) {

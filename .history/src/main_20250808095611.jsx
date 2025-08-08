@@ -5,7 +5,7 @@ import './styles.css';
 import App from './components/App.jsx';
 import { initializeApp } from './utils/appUtils.js';
 
-console.log('JQX Main v1.2 - Updated with enhanced props handling!');
+console.log('JQX Main v1.1 - Updated with DOM ready fix!');
 
 // 確保 DOM 載入完成後再渲染
 $(document).ready(function() {
