@@ -4,11 +4,7 @@ export function jCreateElement(tag, props = {}, ...children) {
   // 處理函數組件
   if (typeof tag === 'function') {
     try {
-      // 確保 props 不是 null 或 undefined
-      const safeProps = props || {};
-      const safeChildren = children && children.length ? children : undefined;
-      
-      return tag({ ...safeProps, children: safeChildren });
+      return tag({ ...props, children: children.length ? children : undefined });
     } catch (error) {
       console.error('Error rendering component:', tag.name, error);
       return $('<div>').text('Component Error');
